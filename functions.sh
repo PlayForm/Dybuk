@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 inline() { echo -en "$*"; }
 log_l() { inline ":: $*\n"; }
