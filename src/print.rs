@@ -23,11 +23,7 @@ impl Message {
 				)
 			},
 			Error(err) => {
-				println!(
-					"      =====>  {}{}",
-					Red.bold().paint("error: "),
-					Bold.paint(&wrap_msg(err, 7))
-				)
+				println!("      =====>  {}{}", Red.bold().paint("error: "), Bold.paint(&wrap_msg(err, 7)))
 			},
 			Help(err) => {
 				println!(

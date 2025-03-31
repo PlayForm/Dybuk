@@ -6,10 +6,10 @@ use std::{
 use regex::Regex;
 
 pub struct MessageIter {
-	buf:String,
-	terminated:bool,
-	pub errors:u16,
-	pub warnings:u16,
+	buf: String,
+	terminated: bool,
+	pub errors: u16,
+	pub warnings: u16,
 }
 
 pub enum Message {
@@ -48,10 +48,8 @@ impl<'a> Iterator for &'a mut MessageIter {
 		let stdin = si.lock().lines().map(|x| x.expect("Stdin failed"));
 
 		for l in once(self.buf.clone()).chain(stdin) {
-			let re_header = Regex::new(
-				r"([0-9A-Za-z_\.\\/>< ]+):(\d+):\d+: .*(warning: |note: |error: |help: )(.*)",
-			)
-			.unwrap();
+			let re_header =
+				Regex::new(r"([0-9A-Za-z_\.\\/>< ]+):(\d+):\d+: .*(warning: |note: |error: |help: )(.*)").unwrap();
 
 			let re_source = Regex::new(r"(\d+) (.*)").unwrap();
 
@@ -90,8 +88,7 @@ impl<'a> Iterator for &'a mut MessageIter {
 					"help: " => res.push(Help(msg)),
 					_ => res.push(Wat),
 				}
-			} else if l.len() > file.len() && re_source.is_match(&l[file.len()..]) && is_not_cmd(&l)
-			{
+			} else if l.len() > file.len() && re_source.is_match(&l[file.len()..]) && is_not_cmd(&l) {
 				let caps = re_source.captures(&l).unwrap();
 
 				res.push(Source(
@@ -128,7 +125,7 @@ impl<'a> Iterator for &'a mut MessageIter {
 	}
 }
 
-fn is_not_cmd(l:&str) -> bool {
+fn is_not_cmd(l: &str) -> bool {
 	l.len() < 30
 		|| !(l.starts_with("rustc ")
 			|| l.starts_with("cargo ")
@@ -147,6 +144,6 @@ fn is_not_cmd(l:&str) -> bool {
 
 impl MessageIter {
 	pub fn new() -> Self {
-		MessageIter { buf:String::new(), terminated:false, errors:0, warnings:0 }
+		MessageIter { buf: String::new(), terminated: false, errors: 0, warnings: 0 }
 	}
 }
