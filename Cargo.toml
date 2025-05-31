@@ -9,4 +9,4 @@ default = []
 [package]
 authors = ["Ticki <Ticki@users.noreply.github.com>"]
 name = "dybuk"
-version = "0.1.0"
+version = "0.0.1"
